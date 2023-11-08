@@ -9,7 +9,7 @@
 import java.io.*;
 import java.util.Scanner;
 
- public class ReadFile {
+ public class haberman_project {
     public static void main(String[] args) {
 
         /*Asks the user if it wants to run the program again */
