@@ -6,7 +6,7 @@ This repository contains Java projects developed for the Advanced Computational 
 ## Projects
 
 ### MSS_RunTest.java
-- **Description**: A Java program that solves the Maximum Subsequence Sum (MSS) problem.
+- **Description**: A Java program that solves the Maximum Subsequence Sum (MSS) problem and gives you the runtime.
 - **Features**:
   - Interactive menu with options 1 to 8 allowing the user to select among four different MSS algorithms.
   - Performance analysis by reporting the maximum sum found and the execution time for each algorithm.
