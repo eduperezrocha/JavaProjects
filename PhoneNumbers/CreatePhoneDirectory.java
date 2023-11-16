@@ -1,9 +1,21 @@
+ /*
+ *
+ * Description: 
+ * This program creates a dictionary with an entry of name and phone number.
+ * It can save the file in multi-line format, remove an entry, search or even display 
+ * all entries that were added. These all can be done with an easy to use MENU.
+ * 
+ * Date: November 15th 2023
+ * Authors: Eduardo Perez Rocha
+ * 
+ */
+
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 import java.lang.*;
 
-public class proj4 {
+public class CreatePhoneDirectory {
     private static PhoneDirectory directory = new PhoneDirectory();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -30,8 +42,6 @@ public class proj4 {
                 case 1:
                     fileName = getFileName();
                     loadFromFile(fileName);
-                    System.out.println("Press Enter to go back to Menu...");
-                    scanner.nextLine();
                     break;
                 case 2:
                     addOrChangeEntry();
@@ -64,8 +74,6 @@ public class proj4 {
                 case 6:
                     fileName = getFileName();
                     saveFileEntries(fileName);
-                    System.out.println("Press Enter to go back to Menu...");
-                    scanner.nextLine();
                     break;
                 case 7:
                     directory.clear();
@@ -145,44 +153,52 @@ public class proj4 {
         }while(choice != 3);
     }
 
-    private static void saveFileEntries(String filePath) throws IOException{
+    private static void saveFileEntries(String filePath) throws IOException {
         Scanner input = new Scanner(System.in);
         int choice;
         List<DirectoryEntry> entries = directory.getAllEntries();
-        do {
+        while (true) {
             System.out.println("1. Enter one if you wish your file to be replaced");
             System.out.println("2. Enter two if you wish your file to be appended");
-            choice = scanner.nextInt();
-            scanner.nextLine();
-            switch(choice) {
+            System.out.println("3. Enter three if you wish to return to the menu");
+            choice = input.nextInt();
+            input.nextLine(); 
+    
+            switch (choice) {
                 case 1:
                     System.out.println("Replacing file...");
-                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-                        PrintWriter prw= new PrintWriter (filePath);
+                    try (PrintWriter prw = new PrintWriter(new BufferedWriter(new FileWriter(filePath)))) {
                         for (DirectoryEntry entry : entries) {
-                            prw.println(entry.toString());          
-                            prw.close();
+                            prw.println(entry.getName());
+                            prw.println(entry.getNumber());
+                            prw.println(); 
                         }
-                        entries.clear();
-                    } 
+                    }
                     System.out.println("File replaced");
-                    break;
+                    return; 
+    
                 case 2:
                     System.out.println("Appending file...");
-                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+                    try (PrintWriter prw = new PrintWriter(new BufferedWriter(new FileWriter(filePath, true)))) {
                         for (DirectoryEntry entry : entries) {
-                            bw.write(entry.toString());
+                            prw.println(entry.getName());
+                            prw.println(entry.getNumber());
+                            prw.println(); 
                         }
-                        entries.clear();
-                    } 
+                    }
                     System.out.println("File appended");
-                    break; 
+                    return; 
+    
+                case 3:
+                    System.out.println("Returning to the menu...");
+                    return;
+    
                 default:
                     System.out.println("Invalid option.");
             }
-        } while (choice != 3);
+        }
     }
-
+    
 
     public static String getFileName() {
         System.out.print("Please enter the name of the file: ");
